@@ -3,6 +3,18 @@ import dotenv from "dotenv";
 import cors from "cors";
 import { Signup } from "./api/signup.js";
 
+// const { Sequelize } = require("sequelize");
+
+// Option 1: Passing a connection URI
+// const sequelize = new Sequelize(process.env.DATABASE_URL);
+
+// try {
+//   await sequelize.authenticate();
+//   console.log("Connection has been established successfull ay.");
+// } catch (error) {
+//   console.error("Unable to connect to the database:", error);
+// }
+
 const app = express();
 dotenv.config();
 

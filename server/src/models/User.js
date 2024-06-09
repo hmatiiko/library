@@ -1,7 +1,7 @@
 import { createHmac } from "crypto";
 import db from "../config/db.js";
 import { saltPassword } from "../helpers/saltPassword.js";
-import format from "pg-format";
+// import format from "pg-format";
 
 // export const findUserByEmailAndPasswordQuery = async (
 //   email: string,

@@ -1,23 +1,11 @@
-// export const Signup = async (req, res) => {
-//   try {
-//     const { email, password } = req.body;
-
-//     console.log("req.body", req.body);
-//   } catch (error) {
-//     res.status(500).send({
-//       errorMessage: "Internal Server Error",
-//     });
-//   }
-// };
-
 import { createUserQuery, findUserByEmailQuery } from "../models/User.js";
 import { signToken } from "../helpers/signToken.js";
 import { userFormSchema } from "../helpers/Joi/formDataSchema.js";
+import { UserNew } from "../models/UserNew.js";
 
 export const Signup = async (req, res) => {
   try {
     const { email, password } = req.body;
-
     const { error: validationError } = userFormSchema.validate({
       email,
       password,
@@ -29,11 +17,14 @@ export const Signup = async (req, res) => {
       });
     }
 
-    const checkUserQuery = await findUserByEmailQuery(email);
-    const isUserExist = !!checkUserQuery.rowCount;
+    const user = await UserNew.findOne({
+      where: {
+        email: email,
+      },
+    });
 
-    if (!isUserExist) {
-      await createUserQuery(email, password);
+    if (!user) {
+      await UserNew.create({ email: email, password: password });
       const token = signToken(email);
 
       return res.status(201).send({
