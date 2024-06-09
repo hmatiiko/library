@@ -1,26 +1,26 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const authApi = createApi({
-  reducerPath: 'authApi',
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.baseUrl }),
+  reducerPath: "authApi",
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3001" }),
   endpoints: (builder) => ({
     sendLoginRequest: builder.mutation({
       query: (formData) => ({
-        url: '/login',
-        method: 'POST',
+        url: "/login",
+        method: "POST",
         body: formData,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       }),
     }),
     sendRegisterRequest: builder.mutation({
       query: (formData) => ({
-        url: '/register',
-        method: 'POST',
+        url: "/register",
+        method: "POST",
         body: formData,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       }),
     }),
@@ -30,4 +30,3 @@ export const authApi = createApi({
 // Export hooks for usage in functional components
 export const { useSendLoginRequestMutation, useSendRegisterRequestMutation } =
   authApi;
-

@@ -1,4 +1,9 @@
 {
+  "scripts": {
+    "start:frontend": "cd client && npm start",
+    "start:backend": "cd server && nodemon src/server.js",
+    "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\""
+  },
   "devDependencies": {
     "concurrently": "^8.2.2"
   }

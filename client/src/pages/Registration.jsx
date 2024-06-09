@@ -2,7 +2,9 @@ import { Link } from "react-router-dom";
 import Input from "../components/form-elements/Input";
 import Label from "../components/form-elements/Label";
 import Button from "../components/shared/Button";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useSendRegisterRequestMutation } from "../services/authApi";
 
 export default function Registration() {
   const {
@@ -15,7 +17,26 @@ export default function Registration() {
   // Watch the password field value
   const password = watch("password", "");
 
-  const onSubmit = (data) => console.log(data);
+  const [sendRegisterRequest, { data, error }] =
+    useSendRegisterRequestMutation();
+
+  useEffect(() => {
+    if (data) {
+      console.log("data inside use effect", data);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (error) {
+      console.error(`Error is ${error}`);
+    }
+  }, [error]);
+
+  const onSubmit = async (formData) => {
+    console.log("form data register", formData);
+    sendRegisterRequest(formData);
+  };
+
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
