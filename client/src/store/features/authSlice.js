@@ -16,6 +16,11 @@ const authSlice = createSlice({
       state.user = action.payload.token;
       state.errorMessage = action.payload.errorMessage;
     },
+    logout: (state) => {
+      state.isAuthenticated = false;
+      state.token = null;
+      state.user = null;
+    },
   },
   //   selectors: {
   //     selectUser: (state) => state.user,
@@ -24,7 +29,7 @@ const authSlice = createSlice({
   //   },
 });
 
-export const { login } = authSlice.actions;
+export const { login, logout } = authSlice.actions;
 // export const { selectUser, selectRegisterStatus, selectError } =
 //   authSlice.selectors;
 

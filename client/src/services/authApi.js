@@ -24,9 +24,21 @@ export const authApi = createApi({
         },
       }),
     }),
+    logoutUserRequest: builder.mutation({
+      query: () => ({
+        url: "/logout",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
   }),
 });
 
 // Export hooks for usage in functional components
-export const { useSendLoginRequestMutation, useSendRegisterRequestMutation } =
-  authApi;
+export const {
+  useSendLoginRequestMutation,
+  useSendRegisterRequestMutation,
+  useLogoutUserRequestMutation,
+} = authApi;

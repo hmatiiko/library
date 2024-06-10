@@ -2,8 +2,11 @@ import Label from "./form-elements/Label";
 import Input from "./form-elements/Input";
 import Button from "./shared/Button";
 import { useForm } from "react-hook-form";
-import { useCallback } from "react";
+import { useDispatch } from "react-redux";
+import { useCallback, useEffect } from "react";
 import InputRadio from "./form-elements/InputRadio";
+import { useSendCreateBookRequestMutation } from "../services/booksApi";
+import { addCreatedBook } from "../store/features/booksSlice";
 
 export default function ModalAddBook({ setOpen, children }) {
   const handleClose = useCallback(() => {
@@ -20,7 +23,36 @@ export default function ModalAddBook({ setOpen, children }) {
     },
   });
 
-  const onSubmit = (data) => console.log(data);
+  const [sendCreateBookRequest, { data, error }] =
+    useSendCreateBookRequestMutation();
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (data) {
+      dispatch(addCreatedBook(data));
+      handleClose();
+    }
+  }, [data, dispatch, handleClose]);
+
+  useEffect(() => {
+    if (error) {
+      console.error(error);
+    }
+  }, [error]);
+
+  // const onSubmit = (data) => console.log(data);
+  const onSubmit = async (formData) => {
+    // Trim formData values
+    const trimmedFormData = {
+      bookName: formData.bookName.trim(),
+      bookAuthor: formData.bookAuthor.trim(),
+      bookDescription: formData.bookDescription.trim(),
+      bookStatus: formData.status,
+    };
+
+    sendCreateBookRequest(trimmedFormData);
+  };
 
   return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">

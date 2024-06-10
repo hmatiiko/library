@@ -1,12 +1,18 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Input from "../components/form-elements/Input";
 import Label from "../components/form-elements/Label";
 import Button from "../components/shared/Button";
+import { login } from "../store/features/authSlice";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { useSendRegisterRequestMutation } from "../services/authApi";
+import { setCookie } from "../helpers/setCookie";
 
 export default function Registration() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
@@ -22,9 +28,18 @@ export default function Registration() {
 
   useEffect(() => {
     if (data) {
+      setCookie("token", data.token);
+
+      if (data.token) {
+        dispatch(login({ ...data, isGetToken: true }));
+        navigate("/");
+      } else {
+        dispatch(login({ ...data, isGetToken: false }));
+      }
+
       console.log("data inside use effect", data);
     }
-  }, [data]);
+  }, [data, dispatch, navigate]);
 
   useEffect(() => {
     if (error) {
