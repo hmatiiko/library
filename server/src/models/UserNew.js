@@ -30,7 +30,7 @@ export const UserNew = sequelize.define(
   }
 );
 
-const saltAndHashPassword = (password) => {
+export const saltAndHashPassword = (password) => {
   const saltedPassword = saltPassword(password);
   const hash = createHmac("sha256", saltedPassword).digest("hex");
   return hash;

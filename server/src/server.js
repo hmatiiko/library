@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import { Signup } from "./api/signup.js";
+import { Login } from "./api/login.js";
 
 // const { Sequelize } = require("sequelize");
 
@@ -32,6 +33,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/register", Signup);
+app.post("/login", Login);
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);

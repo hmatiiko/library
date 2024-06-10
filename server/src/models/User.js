@@ -3,17 +3,14 @@ import db from "../config/db.js";
 import { saltPassword } from "../helpers/saltPassword.js";
 // import format from "pg-format";
 
-// export const findUserByEmailAndPasswordQuery = async (
-//   email: string,
-//   password: string,
-// ) => {
-//   password = saltAndHashPassword(password);
+export const findUserByEmailAndPasswordQuery = async (email, password) => {
+  password = saltAndHashPassword(password);
 
-//   return await db.query(
-//     'SELECT email, role, "createdAt" FROM users WHERE email = $1 AND password = $2 LIMIT 1;',
-//     [email, password],
-//   );
-// };
+  return await db.query(
+    'SELECT email, "createdAt" FROM users WHERE email = $1 AND password = $2 LIMIT 1;',
+    [email, password]
+  );
+};
 
 export const findUserByEmailQuery = async (email) => {
   return await db.query(
