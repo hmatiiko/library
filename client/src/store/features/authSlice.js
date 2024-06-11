@@ -18,20 +18,13 @@ const authSlice = createSlice({
     },
     logout: (state) => {
       state.isAuthenticated = false;
-      state.token = null;
       state.user = null;
+      state.errorMessage = null;
     },
   },
-  //   selectors: {
-  //     selectUser: (state) => state.user,
-  //     selectRegisterStatus: (state) => state.isAuthenticated,
-  //     selectError: (state) => state.errorMessage,
-  //   },
 });
 
 export const { login, logout } = authSlice.actions;
-// export const { selectUser, selectRegisterStatus, selectError } =
-//   authSlice.selectors;
 
 export const selectUser = (state) => state.auth.user;
 export const selectRegisterStatus = (state) => state.auth.isAuthenticated;

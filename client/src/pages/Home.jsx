@@ -3,14 +3,30 @@ import Heading from "../components/shared/Heading";
 import Button from "../components/shared/Button";
 import BooksList from "../components/BooksList";
 import ModalAddBook from "../components/ModalAddBook";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { selectBooks } from "../store/features/booksSlice";
+import { useGetBooksRequestQuery } from "../services/booksApi";
+import { setBooks } from "../store/features/booksSlice";
 
 export default function Home() {
+  const dispatch = useDispatch();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpen = useCallback(() => {
     setIsModalOpen(true);
   }, [setIsModalOpen]);
+
+  let books = useSelector(selectBooks);
+
+  const { data, error, isLoading } = useGetBooksRequestQuery();
+
+  useEffect(() => {
+    if (data) {
+      dispatch(setBooks(data));
+    }
+  }, [data, dispatch]);
 
   return (
     <div>
@@ -40,31 +56,7 @@ export default function Home() {
             />
           </svg>
         </Button>
-        <BooksList
-          books={[
-            {
-              id: 1,
-              title: "The Pragmatic Programmer",
-              author: "Andrew Hunt and David Thomas",
-              description: "Your journey to mastery",
-              status: "Reading",
-            },
-            {
-              id: 2,
-              title: "Clean Code",
-              author: "Robert C. Martin",
-              description: "A Handbook of Agile Software Craftsmanship",
-              status: "Completed",
-            },
-            {
-              id: 3,
-              title: "Refactoring",
-              author: "Martin Fowler",
-              description: "Improving the Design of Existing Code",
-              status: "Completed",
-            },
-          ]}
-        />
+        <BooksList books={books} />
       </div>
       {/* Modal component */}
       {isModalOpen && <ModalAddBook setOpen={setIsModalOpen} />}

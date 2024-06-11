@@ -1,7 +1,24 @@
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import Button from "./shared/Button";
+import { useDeleteBookRequestMutation } from "../services/booksApi";
+import { deleteBook } from "../store/features/booksSlice";
 
 export default function BookItem({ id, title, author, description, status }) {
+  const dispatch = useDispatch();
+  const [sendDeleteBookRequest, { isSuccess }] = useDeleteBookRequestMutation();
+
+  const handleDeleteBook = () => {
+    sendDeleteBookRequest(id);
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(deleteBook(id));
+    }
+  }, [isSuccess, dispatch, id]);
+
   return (
     <div className="bg-purple-100 rounded-lg shadow-md p-4">
       <Link to={`/book/${id}`}>
@@ -36,7 +53,7 @@ export default function BookItem({ id, title, author, description, status }) {
             </svg>
           </Button>
         </Link>
-        <Button additionalClasses="flex-1 ml-3">
+        <Button additionalClasses="flex-1 ml-3" onClick={handleDeleteBook}>
           Delete{" "}
           <svg
             xmlns="http://www.w3.org/2000/svg"

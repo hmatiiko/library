@@ -13,16 +13,17 @@ const booksSlice = createSlice({
       state.books = action.payload;
     },
     addCreatedBook: (state, action) => {
-      const preparedBooksToStore = { ...action.payload.data };
-
-      state.projects.push(preparedBooksToStore);
+      state.books.push(action.payload);
+    },
+    deleteBook: (state, action) => {
+      state.books = state.books.filter((book) => {
+        return book.id !== action.payload;
+      });
     },
   },
 });
 
-export const { setBooks, addCreatedBook } = booksSlice.actions;
-// export const { selectUser, selectRegisterStatus, selectError } =
-//   authSlice.selectors;
+export const { setBooks, addCreatedBook, deleteBook } = booksSlice.actions;
 
 export const selectBooks = (state) => state.books.books;
 export default booksSlice.reducer;

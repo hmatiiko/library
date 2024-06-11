@@ -1,7 +1,7 @@
-import { createUserQuery, findUserByEmailQuery } from "../models/User.js";
+// import { createUserQuery, findUserByEmailQuery } from "../models/User.js";
 import { signToken } from "../helpers/signToken.js";
 import { userFormSchema } from "../helpers/Joi/formDataSchema.js";
-import { UserNew } from "../models/UserNew.js";
+import { User } from "../models/User.js";
 
 export const Signup = async (req, res) => {
   try {
@@ -17,7 +17,7 @@ export const Signup = async (req, res) => {
       });
     }
 
-    const user = await UserNew.findOne({
+    const user = await User.findOne({
       attributes: ["id"],
       where: {
         email: email,
@@ -25,7 +25,7 @@ export const Signup = async (req, res) => {
     });
 
     if (!user) {
-      await UserNew.create({ email: email, password: password });
+      await User.create({ email: email, password: password });
       const token = signToken(email);
 
       return res.status(201).send({

@@ -19,7 +19,7 @@ export default function ModalAddBook({ setOpen, children }) {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      status: "reading",
+      status: "0",
     },
   });
 
@@ -41,14 +41,13 @@ export default function ModalAddBook({ setOpen, children }) {
     }
   }, [error]);
 
-  // const onSubmit = (data) => console.log(data);
   const onSubmit = async (formData) => {
     // Trim formData values
     const trimmedFormData = {
-      bookName: formData.bookName.trim(),
-      bookAuthor: formData.bookAuthor.trim(),
-      bookDescription: formData.bookDescription.trim(),
-      bookStatus: formData.status,
+      title: formData.title.trim(),
+      author: formData.author.trim(),
+      description: formData.description.trim(),
+      status: formData.status,
     };
 
     sendCreateBookRequest(trimmedFormData);
@@ -84,13 +83,13 @@ export default function ModalAddBook({ setOpen, children }) {
             <div className="mt-2">
               <Input
                 id="bookName"
-                name="bookName"
+                name="title"
                 type="text"
                 autoComplete="off"
-                inputConfig={register("bookName", { required: true })}
+                inputConfig={register("title", { required: true })}
               />
             </div>
-            {errors.bookName && (
+            {errors.title && (
               <span className="text-red-600">This field is required</span>
             )}
           </div>
@@ -99,13 +98,13 @@ export default function ModalAddBook({ setOpen, children }) {
             <div className="mt-2">
               <Input
                 id="bookAuthor"
-                name="bookAuthor"
+                name="author"
                 type="text"
                 autoComplete="off"
-                inputConfig={register("bookAuthor", { required: true })}
+                inputConfig={register("author", { required: true })}
               />
             </div>
-            {errors.bookAuthor && (
+            {errors.author && (
               <span className="text-red-600">This field is required</span>
             )}
           </div>
@@ -114,13 +113,13 @@ export default function ModalAddBook({ setOpen, children }) {
             <div className="mt-2">
               <Input
                 id="bookDescription"
-                name="bookDescription"
+                name="description"
                 type="text"
                 autoComplete="off"
-                inputConfig={register("bookDescription", { required: true })}
+                inputConfig={register("description", { required: true })}
               />
             </div>
-            {errors.bookDescription && (
+            {errors.description && (
               <span className="text-red-600">This field is required</span>
             )}
           </div>
@@ -134,7 +133,7 @@ export default function ModalAddBook({ setOpen, children }) {
                 <InputRadio
                   id="status-reading"
                   required
-                  value="reading"
+                  value="0"
                   inputConfig={register("status")}
                 />
                 <Label htmlFor="status-reading" label="Reading" />
@@ -143,7 +142,7 @@ export default function ModalAddBook({ setOpen, children }) {
                 <InputRadio
                   id="status-completed"
                   required
-                  value="completed"
+                  value="1"
                   inputConfig={register("status")}
                 />
                 <Label htmlFor="status-completed" label="Completed" />

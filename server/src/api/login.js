@@ -1,6 +1,6 @@
 import { userFormSchema } from "../helpers/Joi/formDataSchema.js";
 import { signToken } from "../helpers/signToken.js";
-import { UserNew, saltAndHashPassword } from "../models/UserNew.js";
+import { User, saltAndHashPassword } from "../models/User.js";
 
 export const Login = async (req, res) => {
   try {
@@ -16,7 +16,7 @@ export const Login = async (req, res) => {
       });
     }
 
-    const user = await UserNew.findOne({
+    const user = await User.findOne({
       attributes: ["email", "createdAt"],
       where: {
         email: email,
@@ -25,7 +25,7 @@ export const Login = async (req, res) => {
     });
 
     if (!user) {
-      return res.status(404).send({
+      return res.status(400).send({
         errorMessage: "Invalid email or password",
       });
     }
@@ -37,7 +37,6 @@ export const Login = async (req, res) => {
       token,
     });
   } catch (error) {
-    console.log("error", error);
     res.status(500).send({
       errorMessage: "Internal Server Error",
     });
