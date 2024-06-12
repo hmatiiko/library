@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../config/db.js";
-import { saltPassword } from "../helpers/saltPassword.js";
+import { saltPassword } from "../helpers/users/saltPassword.js";
 import { createHmac } from "crypto";
 
 export const User = sequelize.define(

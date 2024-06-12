@@ -1,4 +1,4 @@
-import { bookSchema } from "../../helpers/Joi/formDataSchema.js";
+import { bookSchema } from "../../validators/book.js";
 import { Book } from "../../models/Book.js";
 
 export const CreateBook = async (req, res) => {

@@ -1,9 +1,8 @@
-// import { createUserQuery, findUserByEmailQuery } from "../models/User.js";
-import { signToken } from "../helpers/signToken.js";
-import { userFormSchema } from "../helpers/Joi/formDataSchema.js";
-import { User } from "../models/User.js";
+import { userFormSchema } from "../../validators/user.js";
+import { signToken } from "../../helpers/users/signToken.js";
+import { User } from "../../models/User.js";
 
-export const Signup = async (req, res) => {
+export const Register = async (req, res) => {
   try {
     const { email, password } = req.body;
     const { error: validationError } = userFormSchema.validate({

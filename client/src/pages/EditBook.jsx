@@ -1,9 +1,8 @@
 import Header from "../components/Header";
 import Book from "../components/Book";
 import { useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import Cookies from "js-cookie";
 import { selectBookById } from "../store/features/booksSlice";
 import { useGetBooksRequestQuery } from "../services/booksApi";
 import { setBooks } from "../store/features/booksSlice";
@@ -11,14 +10,7 @@ import { setBooks } from "../store/features/booksSlice";
 export default function EditBook() {
   const { id } = useParams();
 
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (!Cookies.get("token") || Cookies.get("token") === "undefined") {
-      navigate("/login");
-    }
-  }, [navigate]);
 
   const { data: books = [], error, isLoading } = useGetBooksRequestQuery();
 
@@ -45,8 +37,7 @@ export default function EditBook() {
   return (
     <div>
       <Header />
-      <div className="container mx-auto px-4">
-        <div>id {id}</div>
+      <div className="container mx-auto px-4 mt-5 ">
         <Book book={selectedBook} bookId={id} />
       </div>
     </div>

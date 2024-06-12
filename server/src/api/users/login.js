@@ -1,6 +1,6 @@
-import { userFormSchema } from "../helpers/Joi/formDataSchema.js";
-import { signToken } from "../helpers/signToken.js";
-import { User, saltAndHashPassword } from "../models/User.js";
+import { userFormSchema } from "../../validators/user.js";
+import { signToken } from "../../helpers/users/signToken.js";
+import { User, saltAndHashPassword } from "../../models/User.js";
 
 export const Login = async (req, res) => {
   try {
