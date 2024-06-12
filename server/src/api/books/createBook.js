@@ -1,10 +1,10 @@
-import { createBookSchema } from "../../helpers/Joi/formDataSchema.js";
+import { bookSchema } from "../../helpers/Joi/formDataSchema.js";
 import { Book } from "../../models/Book.js";
 
 export const CreateBook = async (req, res) => {
   try {
     const { title, author, description, status } = req.body;
-    const { error: validationError } = createBookSchema.validate({
+    const { error: validationError } = bookSchema.validate({
       title,
       author,
       description,

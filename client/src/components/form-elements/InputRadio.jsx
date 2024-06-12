@@ -4,8 +4,10 @@ export default function InputRadio({ id, value, onChange, inputConfig }) {
       id={id}
       type="radio"
       value={value}
-      onChange={onChange}
-      {...inputConfig}
+      name={inputConfig.name}
+      ref={inputConfig.ref}
+      onChange={inputConfig.onChange}
+      onBlur={inputConfig.onBlur}
       className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
     />
   );

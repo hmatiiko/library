@@ -4,13 +4,19 @@ import Button from "../components/shared/Button";
 import BooksList from "../components/BooksList";
 import ModalAddBook from "../components/ModalAddBook";
 import { useState, useCallback, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { selectBooks } from "../store/features/booksSlice";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 import { useGetBooksRequestQuery } from "../services/booksApi";
-import { setBooks } from "../store/features/booksSlice";
 
 export default function Home() {
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  // protected route, check if token cookie exists
+  useEffect(() => {
+    if (!Cookies.get("token") || Cookies.get("token") === "undefined") {
+      navigate("/login");
+    }
+  }, [navigate]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -18,15 +24,17 @@ export default function Home() {
     setIsModalOpen(true);
   }, [setIsModalOpen]);
 
-  let books = useSelector(selectBooks);
+  // let books = useSelector(selectBooks);
 
-  const { data, error, isLoading } = useGetBooksRequestQuery();
+  // const { data, error, isLoading } = useGetBooksRequestQuery();
 
-  useEffect(() => {
-    if (data) {
-      dispatch(setBooks(data));
-    }
-  }, [data, dispatch]);
+  // useEffect(() => {
+  //   if (data) {
+  //     dispatch(setBooks(data));
+  //     console.log("setBooks inside Home");
+  //   }
+  // }, [data, dispatch]);
+  const { data: books = [], error, isLoading } = useGetBooksRequestQuery(); // Fetch books
 
   return (
     <div>
@@ -56,7 +64,14 @@ export default function Home() {
             />
           </svg>
         </Button>
-        <BooksList books={books} />
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : error ? (
+          <div>Error: {error.message}</div>
+        ) : (
+          <BooksList books={books} />
+        )}
+        {/* <BooksList books={books} /> */}
       </div>
       {/* Modal component */}
       {isModalOpen && <ModalAddBook setOpen={setIsModalOpen} />}

@@ -8,11 +8,9 @@ export const userFormSchema = Joi.object({
   password: Joi.string().min(8).required(),
 });
 
-//todo rename to bookSchema?
-export const createBookSchema = Joi.object({
+export const bookSchema = Joi.object({
   title: Joi.string().max(64).required(),
   author: Joi.string().max(64).required(),
   description: Joi.string().required(),
-  //todo get from model?
   status: Joi.number().valid(0, 1).required(),
 });

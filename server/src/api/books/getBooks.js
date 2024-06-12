@@ -9,6 +9,7 @@ export const GetBooks = async (req, res) => {
       where: {
         userId: req.user.id,
       },
+      order: [["id", "DESC"]],
       limit: limit,
       offset: offset,
     });

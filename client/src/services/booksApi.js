@@ -4,7 +4,18 @@ import Cookies from "js-cookie";
 export const booksApi = createApi({
   reducerPath: "booksApi",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3001" }),
+  tagTypes: ["Books"],
   endpoints: (builder) => ({
+    getBooksRequest: builder.query({
+      query: () => ({
+        url: "/books",
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
+      }),
+      providesTags: ["Books"],
+    }),
     sendCreateBookRequest: builder.mutation({
       query: (formData) => ({
         url: "/books",
@@ -15,6 +26,7 @@ export const booksApi = createApi({
           Authorization: `Bearer ${Cookies.get("token")}`,
         },
       }),
+      invalidatesTags: ["Books"],
     }),
     deleteBookRequest: builder.mutation({
       query: (bookId) => ({
@@ -24,15 +36,19 @@ export const booksApi = createApi({
           Authorization: `Bearer ${Cookies.get("token")}`,
         },
       }),
+      invalidatesTags: ["Books"],
     }),
-    getBooksRequest: builder.query({
-      query: () => ({
-        url: "/books",
-        method: "GET",
+    editBookRequest: builder.mutation({
+      query: (formData) => ({
+        url: `/books/${formData.id}`,
+        method: "PATCH",
+        body: formData,
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${Cookies.get("token")}`,
         },
       }),
+      invalidatesTags: ["Books"],
     }),
   }),
 });
@@ -41,5 +57,6 @@ export const booksApi = createApi({
 export const {
   useSendCreateBookRequestMutation,
   useGetBooksRequestQuery,
+  useEditBookRequestMutation,
   useDeleteBookRequestMutation,
 } = booksApi;

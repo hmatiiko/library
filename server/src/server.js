@@ -6,20 +6,9 @@ import { Login } from "./api/login.js";
 //todo move to 1 conytroller books and users wuth several methods
 import { CreateBook } from "./api/books/createBook.js";
 import { GetBooks } from "./api/books/getBooks.js";
+import { UpdateBook } from "./api/books/updateBook.js";
 import { DeleteBook } from "./api/books/deleteBook.js";
 import { auth } from "./middleware/auth.js";
-
-// const { Sequelize } = require("sequelize");
-
-// Option 1: Passing a connection URI
-// const sequelize = new Sequelize(process.env.DATABASE_URL);
-
-// try {
-//   await sequelize.authenticate();
-//   console.log("Connection has been established successfull ay.");
-// } catch (error) {
-//   console.error("Unable to connect to the database:", error);
-// }
 
 const app = express();
 dotenv.config();
@@ -45,6 +34,7 @@ app.post("/login", Login);
 
 app.get("/books", auth, GetBooks);
 app.post("/books", auth, CreateBook);
+app.patch("/books/:id", auth, UpdateBook);
 app.delete("/books/:id", auth, DeleteBook);
 
 app.listen(port, () => {
