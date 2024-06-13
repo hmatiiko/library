@@ -14,7 +14,7 @@ Ensure you have the following installed on your machine:
 Follow these steps to get the project up and running on your local machine.
 
 ```bash
-git clone https://github.com/yourusername/yourproject.git
+git clone https://github.com/hmatiiko/library.git
 cd library
 npm install
 npm start
