@@ -1,7 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import Label from "./form-elements/Label";
 import Input from "./form-elements/Input";
 import InputRadio from "./form-elements/InputRadio";
@@ -11,9 +10,9 @@ import { updateBook } from "../store/features/booksSlice";
 
 export default function Book({ book, bookId }) {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
-  console.log("id at the top of book ", bookId);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -29,17 +28,25 @@ export default function Book({ book, bookId }) {
     },
   });
 
-  console.log("book", book);
-
-  const [editBookRequest, { data, isSuccess }] = useEditBookRequestMutation();
+  const [editBookRequest, { data, error, isSuccess }] =
+    useEditBookRequestMutation();
 
   useEffect(() => {
     if (isSuccess) {
-      console.log("succr=ess!", isSuccess, "data", data);
       dispatch(updateBook(data));
-      navigate("/");
     }
-  }, [isSuccess, navigate, dispatch, data]);
+  }, [isSuccess, dispatch, data]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      setShowSuccessMessage(true);
+      const timer = setTimeout(() => {
+        setShowSuccessMessage(false);
+      }, 3000); // Hide after 3 seconds
+
+      return () => clearTimeout(timer); // Clear timeout if the component unmounts or if isSuccess changes
+    }
+  }, [isSuccess]);
 
   useEffect(() => {
     if (book) {
@@ -51,7 +58,6 @@ export default function Book({ book, bookId }) {
   }, [book, setValue]);
 
   const onSubmit = (formData) => {
-    console.log("formData", formData);
     // Trim formData values
     const trimmedFormData = {
       title: formData.title.trim(),
@@ -71,6 +77,9 @@ export default function Book({ book, bookId }) {
       <h3 className="text-xl font-bold mb-2 text-violet-800">
         Edit book "{book.title}"
       </h3>
+      {error && error.data.error && (
+        <div className="text-red-600">{error.data.error}</div>
+      )}
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mt-3">
           <Label htmlFor="bookName" label="Book name" />
@@ -145,10 +154,13 @@ export default function Book({ book, bookId }) {
         </fieldset>
 
         <div>
-          <Button type="submit" additionalClasses="mt-4">
+          <Button type="submit" additionalClasses="mt-4 mb-4">
             Save changes
           </Button>
         </div>
+        {showSuccessMessage && (
+          <span className="text-green-600">Book has been updated!</span>
+        )}
       </form>
     </div>
   );

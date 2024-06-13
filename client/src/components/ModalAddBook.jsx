@@ -77,6 +77,9 @@ export default function ModalAddBook({ setOpen, children }) {
         </button>
         {children}
         <h2 className="text-xl font-bold mb-4">Add a New Book</h2>
+        {error && error.data.error && (
+          <div className="text-red-600">{error.data.error}</div>
+        )}
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mt-3">
             <Label htmlFor="bookName" label="Book name" />

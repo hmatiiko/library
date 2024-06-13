@@ -36,19 +36,16 @@ export default function Registration() {
       } else {
         dispatch(login({ ...data, isGetToken: false }));
       }
-
-      console.log("data inside use effect", data);
     }
   }, [data, dispatch, navigate]);
 
   useEffect(() => {
     if (error) {
-      console.error(`Error is ${error}`);
+      console.error(error);
     }
   }, [error]);
 
   const onSubmit = async (formData) => {
-    console.log("form data register", formData);
     sendRegisterRequest(formData);
   };
 
@@ -62,6 +59,10 @@ export default function Registration() {
         </div>
 
         <div className="mt-20 sm:mx-auto sm:w-full sm:max-w-sm">
+          {error && error.data.errorMessage && (
+            <div className="text-red-600">{error.data.errorMessage}</div>
+          )}
+
           <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
             <div>
               <div className="flex items-center justify-between">

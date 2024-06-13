@@ -30,19 +30,16 @@ export default function Login() {
       } else {
         dispatch(login({ ...data, isGetToken: false }));
       }
-
-      console.log("data inside use effect", data);
     }
   }, [data, dispatch, navigate]);
 
   useEffect(() => {
     if (error) {
-      console.error(`Error is ${error}`);
+      console.error(error);
     }
   }, [error]);
 
   const onSubmit = async (formData) => {
-    console.log("form data login", formData);
     sendLoginRequest(formData);
   };
 
@@ -56,6 +53,9 @@ export default function Login() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+          {error && error.data.errorMessage && (
+            <div className="text-red-600">{error.data.errorMessage}</div>
+          )}
           <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
             <div>
               <Label htmlFor="email" label="Email address" />
