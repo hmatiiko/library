@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Button from "./shared/Button";
 import { logout } from "../store/features/authSlice";
 import { useDispatch } from "react-redux";
@@ -6,12 +6,11 @@ import Cookies from "js-cookie";
 
 export default function Header() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const handleLogout = () => {
     dispatch(logout());
     Cookies.remove("token");
-    navigate("/login");
+    window.location.href = "/login";
   };
 
   return (
