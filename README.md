@@ -20,10 +20,7 @@ npm install
 npm start
 
 ### To apply all migrations, use the following command:
-
-```bash
 npm run migrate up
 
 ### To undo migrations, use the following command:
-```bash
 npm run migrate down
